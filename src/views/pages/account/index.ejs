@@ -1,0 +1,83 @@
+<div class="container mt-4">
+    <div id="account-edit" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-user-id="123456789">
+    </div>
+    <div class="d-flex flex-row justify-content-between">
+        <h4><%= chosenUser.first_name %>'<%= chosenUser.first_name.endsWith('s') ? '' : 's' %> Profile</h4>
+    </div>
+    <div class="user-account mt-2 p-4 border rounded d-flex flex-row justify-content-between align-items-center">
+        <div class="d-flex flex-row justify-content-between">
+            <img src="/static/images/uploads/<%= chosenUser.profile_picture %>" class="avatar rounded-5" style="width: 150px;" alt="Avatar" onerror="this.src='/static/images/default_avatar.png';">
+            <div class="user-account--details">
+                <h5 class="user-account--details--name"><%= chosenUser.first_name %> <%= chosenUser.last_name %></h5>
+                <span class="user-account--details--role"><%= chosenUser.role %></span>
+            </div>
+        </div>
+        <% if (chosenUser.user_id === user.user_id) { %>
+        <div class="ml-auto">
+            <button id="logout" type="button" class="btn btn-info js-edit button">Log Out</button>
+        </div>
+        <% } %>
+    </div>
+
+    <div class="mt-4 p-4 border rounded">
+        <div class="d-flex flex-row justify-content-between">
+            <h5 class="mb-4">Personal Information</h5>
+            <% if (chosenUser.user_id === user.user_id) { %>
+            <div>
+                <button type="button" class="btn btn-info js-edit button" data-bs-toggle="modal" data-bs-target="#account-edit">Edit</href>
+            </div>
+            <% } %>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 mb-2">
+                <p class="fw-semibold m-0">First Name</p>
+                <p class="m-0"><%= chosenUser.first_name %></p>
+            </div>
+            <div class="col-sm-6 mb-2">
+                <p class="fw-semibold m-0">Last Name</p>
+                <p class="m-0"><%= chosenUser.last_name %></p>
+            </div>
+        </div>
+        <% if (chosenUser.user_id === user.user_id) { %>
+        <div class="row">
+            <div class="col-sm-6 mb-2">
+                <p class="fw-semibold m-0">Email</p>
+                <p class="m-0"><%= chosenUser.email %></p>
+            </div>
+            <div class="col-sm-6 mb-2">
+                <p class="fw-semibold m-0">Password</p>
+                <p class="m-0">**********</p>
+            </div>
+        </div>
+        <% } %>
+    </div>
+
+    <div class="list-group mt-4">
+        <% if (chosenUserClubs.length > 0) { %>
+            <% for (let i = 0; i < chosenUserClubs.length; i++) { %>
+                <a href="/club/<%= chosenUserClubs[i].club_id %>" class="list-group-item list-group-item-action">
+                    <div class="row">
+                        <div class="col-md-4 d-flex align-items-center justify-content-between">
+                            <h5 class="mb-0"><%= chosenUserClubs[i].club_name %></h5>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-center justify-content-center">
+                            <p class="mb-0"><strong>Role: </strong><%= chosenUserClubs[i].role %></p>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-center justify-content-end">
+                            <img src="/static/images/uploads/<%= chosenUserClubs[i].club_logo %>" class="avatar navAvatar rounded-5 ms-3" style="width: 100px;" alt="Avatar" onerror="this.src='/static/images/default_avatar.png';">
+                        </div>
+                    </div>
+                </a>
+            <% } %>
+            <% } else { %>
+                <div class="list-group-item">
+                    <p class="mb-0"><%= chosenUser.first_name %> is not a member of any club yet.</p>
+                </div>
+            <% } %>
+
+    </div>
+
+
+</div>
+
+<script src="/static/js/pages/account/index.js"></script>

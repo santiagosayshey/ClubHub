@@ -1,0 +1,47 @@
+<div class="vh-100 d-flex justify-content-center align-items-center">
+	<div class="container">
+		<div class="row d-flex justify-content-center">
+			<div class="col-12 col-lg-6">
+				<div class="card bg-white">
+					<div class="card-body p-5">
+						<form class="mb-3">
+							<% if (errorMessage) { %>
+							<div class="mb-3">
+								<div class="alert alert-danger" role="alert">
+									<%= errorMessage %>
+								</div>
+							</div>
+							<% } %>
+							<div class="mb-3">
+								<h3>ClubHub</h3>
+							</div>
+							<div class="mb-3">
+								<label for="email" class="form-label ">Email address</label>
+								<input type="email" class="form-control" id="email" placeholder="Email">
+							</div>
+							<div class="mb-3">
+								<label for="password" class="form-label ">Password</label>
+								<input type="password" class="form-control" id="password" placeholder="Password">
+							</div>
+							<p class="small"><a class="text-primary" href="forget-password.html">Forgot password?</a></p>
+							<div class="d-grid">
+								<button id="login" class="btn btn-success" type="submit">Login</button>
+							</div>
+							<div class="text-center mt-2">
+								<h6>or</h6>
+							</div>
+							<div class="d-grid">
+								<a href="/login/auth/google" class="btn btn-light d-flex align-items-center justify-content-center" type="submit" style="padding-left: 8px; padding-right: 8px;">
+								  <img src="/static/images/google.svg" alt="Google logo" style="height: 18px; margin-right: 24px;">
+								  <span style="font-family: 'Roboto', sans-serif; font-weight: 500;">Continue with Google</span>
+								</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="/<%= scriptPath %>"></script>

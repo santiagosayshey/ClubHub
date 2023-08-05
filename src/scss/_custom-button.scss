@@ -1,0 +1,17 @@
+/* Button normal state */
+.custom-button {
+    background-color: #2E3440;
+    color: #fff;
+    /* add other styles as needed */
+}
+
+/* Button hover state */
+.custom-button:hover {
+    background-color: #3b4252; /* a slightly lighter shade */
+    color: #fff;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}

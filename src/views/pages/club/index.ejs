@@ -1,0 +1,295 @@
+<div data-club-id="<%=clubDetails[0].club_id%>" data-isMember="<%=isMember%>"" id="clubBanner" class="row rounded banner">
+    <img id="bannerImage"
+    src="/static/images/uploads/<%= clubDetails[0].club_banner %>"
+    class="img-fluid <% if (user.role === 'Admin' || clubManagers.some(manager => manager.user_id === user.user_id)) { %> editable <% } %>"
+    alt="Club Banner"
+    style="height: 300px; object-fit: cover;"
+    onerror="this.onerror=null; this.src='/static/images/default_banner.png';"
+    <% if (user.role === 'Admin' || clubManagers.some(manager => manager.user_id === user.user_id)) { %>
+    data-bs-toggle="modal"
+    data-bs-target="#update-banner"
+    <% } %> >
+</div>
+
+<div class="container mt-4">
+    <div class="col-sm-3 position-relative" style="top: -290px;">
+        <div id="clubLogo" class="row mt-3 avatar rounded-circle d-none d-md-none d-lg-block d-sm-none" data-club-logo="<%= clubDetails[0].club_logo %>">
+            <img id="logoImage"
+                class="rounded-circle <% if (user.role === 'Admin' || clubManagers.some(manager => manager.user_id === user.user_id)) { %> editable <% } %>"
+                src="/static/images/uploads/<%= clubDetails[0].club_logo %>"
+                alt="Club Logo"
+                onerror="this.src='/static/images/default_avatar.png';"
+                <% if (user.role === 'Admin' || clubManagers.some(manager => manager.user_id === user.user_id)) { %>
+                data-bs-toggle="modal"
+                data-bs-target="#update-logo"
+                <% } %> >
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-4">
+    <div class="row" >
+        <div class="col-sm-3 d-none d-md-block">
+
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-9" style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>
+                <%= clubDetails[0].club_name %>
+            </h1>
+            <div>
+                <button id="joinButton" class="btn <%= isMember ? 'btn-outline-primary hidden' : 'btn-success' %>" style="display: <%= isMember ? 'none' : 'block' %>">
+                    Join
+                </button>
+                <button id="leaveButton" class="btn <%= isMember ? 'btn-success' : 'btn-outline-primary' %>" style="display: <%= isMember ? 'block' : 'none' %>">
+                    Leave
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 d-none d-md-block">
+
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h4>Recent Updates</h4>
+                </div>
+                <% if (user.role === 'Admin' || clubManagers.some(manager => manager.user_id === user.user_id)) { %>
+                    <div>
+                        <button type="button" class="btn btn-outline-secondary js-edit button btn-responsive" data-bs-toggle="modal" data-bs-target="#add-update">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-3">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>New Events</h4>
+                <% if (user.role === 'Admin' || clubManagers.some(manager => manager.user_id === user.user_id)) { %>
+                    <div>
+                    <button type="button" class="btn btn-outline-secondary js-edit button btn-responsive" data-bs-toggle="modal" data-bs-target="#add-event">
+                        <i class="bi bi-plus"></i>
+                    </button>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="p-4 text-bg-light rounded-4 mt-3 border overflow-auto">
+                <div class="d-flex flex-wrap justify-content-between align-items-start mb-3">
+                    <h4>Information</h4>
+                    <% if (user.role === 'Admin' || clubManagers.some(manager => manager.user_id === user.user_id)) { %>
+                        <div>
+                        <button type="button" class="btn js-edit button btn-success" data-bs-toggle="modal" data-bs-target="#club-edit">Edit</button>
+                    </div>
+                    <% } %>
+                </div>
+                <p><strong>About Us:</strong>
+                    <%= clubDetails[0].club_description %>
+                </p>
+                <p><strong>Club Managers:</strong></p>
+                <ul>
+                    <% clubManagers.forEach(function(manager, index) { %>
+                        <li><a class="club-link" href="/account/<%= manager.user_id %>"><%= manager.first_name %> <%= manager.last_name %></a></li>
+                    <% }); %>
+                </ul>
+                <p>
+                    <strong>Instagram:</strong>
+                    <% if (clubDetails[0].social_media_links &&
+                          typeof clubDetails[0].social_media_links === 'string' &&
+                          clubDetails[0].social_media_links.trim()[0] === '@') {
+                            var instagramHandle = clubDetails[0].social_media_links.trim().substring(1);
+                    %>
+                    <a class="club-link" href="https://www.instagram.com/<%= instagramHandle %>" target="_blank">
+                        <em>
+                            <%= clubDetails[0].social_media_links %>
+                        </em>
+                    </a>
+                    <% } else { %>
+                        No Instagram link provided
+                    <% } %>
+                </p>
+                <p>
+                    <strong>Contact Us!</strong>
+                    <em>
+                        <a class="club-link" href="mailto:<%= clubDetails[0].contact_information %>">
+                            <%= clubDetails[0].contact_information %>
+                        </a>
+                    </em>
+                </p>
+                <p><strong>Date Created:</strong>
+                    <em><%= clubDetails[0].created_at %></em>
+                </p>
+                <div class="d-flex justify-content-left align-items-center">
+                    <p class="mb-0" style="margin-right: 1rem;"><strong>Total Members:</strong> <%= totalMembers %></p>
+                    <% if (user.role === 'Admin' || clubManagers.some(manager => manager.user_id === user.user_id)) { %>
+                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#view-members">
+                            <i class="bi bi-eye-fill"></i> Manage
+                        </button>
+                    <% } %>
+                </div>
+                <div class="mt-3">
+                    <strong>Email Notifications:</strong>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input mt-3" type="checkbox" id="emailUpdatesToggle" onchange="toggleEmailUpdates(this.checked);" <%= optInUpdate ? "checked" : "" %>>
+                        <label class="form-check-label mt-3" for="emailUpdatesToggle">Updates</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="emailEventsToggle" onchange="toggleEmailEvents(this.checked);" <%= optInEvent ? "checked" : "" %>>
+                        <label class="form-check-label" for="emailEventsToggle">Events</label>
+                    </div>
+                </div>
+            </div>
+            <div id="alert" class="alert alert-success mt-3" role="alert" style="display: none;"></div>
+        </div>
+        <div class="col-sm-6">
+            <div class="mt-3">
+                <% if (updateDetails.length > 0) { %>
+                    <% for (let i = 0; i < updateDetails.length; i++) { %>
+                        <div class="card bg-light mt-2 update-content mb-4" style="position: relative;">
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <small class="text-muted">
+                                            <span style="margin-right:10px;"><i class="bi bi-person-fill "></i> Posted by: <a href="/account/<%= updateDetails[i].user_id %>" class="club-link text-muted"><%= updateDetails[i].first_name %> <%= updateDetails[i].last_name %></a></span>
+                                            <span><i class="bi bi-clock-fill"></i> <%= updateDetails[i].timeStatement %></span>
+                                        </small>
+                                        <h5>
+                                            <strong class="card-title"><%= updateDetails[i].update_title %></strong>
+                                        </h5>
+                                        <h6 class="card-subtitle mb-2 text-muted"><%= updateDetails[i].club_name %></h6>
+                                    </div>
+                                    <% if (user.role === 'Admin' || clubManagers.some(manager => manager.user_id === user.user_id)) { %>
+                                        <button class="btn btn-outline-secondary js-edit button btn-xs float-end delete-post" data-post-id="<%= updateDetails[i].update_id %>">
+                                            <i class="bi bi-x"></i>
+                                        </button>
+                                    <% } %>
+                                </div>
+                                <p class="card-text mt-2">
+                                    <%- updateDetails[i].update_content %>
+                                </p>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } else { %>
+                    <div class="alert alert-info mt-3 text-center">No Update available</div>
+                <% } %>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="list-group mt-3">
+                <% if (eventDetails.length > 0) { %>
+                    <% for (let i = 0; i < eventDetails.length; i++) { %>
+                        <a href="/events/<%= eventDetails[i].event_id %>" class="list-group-item list-group-item-action">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <%= eventDetails[i].event_name %>
+                                </div>
+                                <% if (user.role === 'Admin' || clubManagers.some(manager => manager.user_id === user.user_id)) { %>
+                                    <button class="btn btn-outline-secondary js-edit button btn-xs delete-event" data-event-id="<%= eventDetails[i].event_id %>">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                <% } %>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <%= eventDetails[i].formattedDate %>
+                                -
+                                <%= eventDetails[i].event_time %>
+                                <span class="float-end"><%= eventDetails[i].isAttending ? '⭐' : '' %></span>
+                            </div>
+                        </a>
+                    <% } %>
+                <% } else { %>
+                    <div class="card-body list-group-item ">
+                        <h5 class="card-title">No upcoming events</h5>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        position: relative;
+    }
+    #clubLogo {
+        position: absolute;
+        z-index: 10; /* To ensure the logo appears above other elements */
+    }
+    .btn-responsive {
+        padding: .25rem .5rem;
+        font-size: .875rem;
+        line-height: 1.5;
+        border-radius: .2rem;
+    }
+
+    /* When screen size is medium or larger, use standard btn size */
+    @media (min-width: 900px) {
+        .btn-responsive {
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+        }
+    }
+</style>
+
+
+<script src="/<%= scriptPath %>"></script>
+
+
+<div id="add-update" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-user-id="123456789">
+</div>
+<div id="add-event" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-user-id="123456789">
+</div>
+<div id="update-logo" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-user-id="123456789" data-action="logo">
+</div>
+<div id="update-banner" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-user-id="123456789" data-action="banner">
+</div>
+<div id="club-edit" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-user-id="123456789">
+</div>
+<div id="view-members" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-user-role="<%= user.role %>">
+</div>
+
+<div class="modal fade" id="confirm-delete-post-modal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="confirm">Confirm</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Are you sure?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirm-delete-post">Delete</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirm-delete-event-modal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this item?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirm-delete-event">Delete</button>
+        </div>
+      </div>
+    </div>
+</div>
+

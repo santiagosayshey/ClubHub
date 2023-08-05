@@ -1,0 +1,6 @@
+.update-content {
+    max-height: 400px; /* Adjust the height as per your preference */
+    overflow-y: auto;
+    scroll-behavior: smooth; /* This enables smooth scrolling */
+    scroll-padding-top: 20px; /* Add padding at the top to align content */
+}

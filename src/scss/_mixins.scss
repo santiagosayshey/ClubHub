@@ -1,0 +1,21 @@
+$less-than-sm: 550px;
+$sm: 768px;
+$md: 1024px;
+
+@mixin xs {
+	@media screen and (min-width: #{$less-than-sm}) {
+		@content;
+	}
+}
+
+@mixin sm {
+	@media screen and (min-width: #{$sm}), print {
+		@content;
+	}
+}
+
+@mixin md {
+	@media all and (min-width: #{$md}) {
+		@content;
+	}
+}

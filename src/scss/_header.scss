@@ -1,0 +1,20 @@
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+
+}
+
+body {
+    padding-top: 4em;
+}
+
+.navbar-custom {
+    background-color: #2E3440;
+}
+
+.navbar-brand:hover, .nav-link:hover {
+    color: #81A1C1 !important; /* Change this color as per your theme */
+    cursor: pointer;
+}

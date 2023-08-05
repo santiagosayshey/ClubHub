@@ -1,0 +1,26 @@
+.user-account {
+	display: flex;
+	flex-direction: row;
+
+    &--image {
+        max-width: 100px;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+    }
+
+	&--details {
+		margin-left: 20px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+
+		&--name {
+			margin-bottom: 0.1rem;
+		}
+
+		&--role {
+			font-size: 18px;
+			color: #8e949f;
+		}
+	}
+}

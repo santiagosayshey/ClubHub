@@ -1,0 +1,77 @@
+<div class="container mt-4">
+    <div class="row mt-3">
+        <div class="col-sm-3">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Your Interests</h3>
+                <button id="reset-button" class="btn btn-outline-primary">Reset</button>
+            </div>
+            <% let uniqueInterests = new Set();
+                if (clubData.length > 0) {
+                    for (let i = 0; i < clubData.length; i++) {
+                        clubData[i].interests.forEach(interest => uniqueInterests.add(interest.interest_name));
+                    }
+                }
+            %>
+
+            <div class="p-4 text-bg-light rounded-4 mt-4">
+                <% Array.from(uniqueInterests).forEach(interest => { %>
+                <div class="btn btn-outline-primary m-1 btn-sm" data-interest="<%= interest %>">
+                    <%= interest %>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="col" style="display: flex; align-items: center;">
+                    <h3 style="margin-right: 30px;">All Clubs</h3>
+                    <button type="button" class="btn btn-outline-secondary js-edit button" data-bs-toggle="modal" data-bs-target="#new-club">
+                        <i class="bi bi-plus"></i>
+                    </button>
+                </div>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="Search" id="search-bar">
+                </div>
+            </div>
+            <% if (clubData.length > 0) { %>
+                <% for (let i = 0; i < clubData.length; i++) { %>
+                    <div class="card mb-4 p-3 shadow rounded" data-club-interests="<%= clubData[i].interests.map(int => int.interest_name).join(',') %>">
+                        <div class="row no-gutters d-flex justify-content-end align-items-center">
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= clubData[i].club_name %></h5>
+                                    <% let description = clubData[i].club_description;
+                                    if (description.length > 200) {
+                                        let lastSpaceBefore200 = description.lastIndexOf(' ', 200);
+                                        let part1 = description.substring(0, lastSpaceBefore200);
+                                        let part2 = description.substring(lastSpaceBefore200 + 1);
+                                    %>
+                                        <p class="card-text">
+                                            <span class="short-description"><%= part1 %></span>
+                                            <span class="ellipsis show">...</span>
+                                            <span class="moreText hide"><%= part2 %></span>
+                                            <a href="#" class="read-more-link">Read More</a>
+                                        </p>
+                                    <% } else { %>
+                                        <p class="card-text"><%= description %></p>
+                                    <% } %>
+                                    <a href="/club/<%= clubData[i].club_id %>" class="btn btn-outline-secondary mb-2">Go To Club</a>
+                                </div>
+                            </div>
+                            <div class="col-md-4 d-flex justify-content-end align-items-center">
+                                <img src="/static/images/uploads/<%= clubData[i].club_logo %>" onerror="this.src='/static/images/default_avatar.png'" class="img-fluid rounded-5 me-3 mt-3 mb-3 avatar" alt="<%= clubData[i].club_name %> logo" style="max-width: 50%; max-height: 75%;">
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            <% } else { %>
+            <h4 class="text-secondary text-center">No clubs available</h4>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<div id="new-club" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-user-role="<%= user.role %>">
+</div>
+
+<script src="/<%= scriptPath %>"></script>
