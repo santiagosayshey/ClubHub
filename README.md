@@ -1,3 +1,4 @@
+Major Group Project for [Web & Database Computing](https://www.adelaide.edu.au/course-outlines/108960/1/sem-1/) - Semester 2, 2022.
 # ClubHub
 Immerse yourself in vibrant student life. Find clubs that match your interests, join them, and never miss an update or event. As a Club Manager, share updates, create events, and foster a thriving community. Stay connected, stay informed, and let your campus life flourish with ClubHub!
 
